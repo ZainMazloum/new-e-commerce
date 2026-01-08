@@ -14,8 +14,9 @@ type CartContextType = {
   items: CartItem[];
   totalAmount: number;
   addItem: (item: CartItem) => void;
-  removeItem: (id: string) => void;
-  clearCart: () => void; // <--- Add this line
+  removeItem: (id: string) => void; // Removes ONE quantity
+  clearCart: () => void; // Removes ALL items
+  removeItemCompletely: (id: string) => void; // <--- NEW: Removes ALL quantities of specific item
 };
 
 // Create the context with initial empty values
@@ -25,13 +26,14 @@ export const CartContext = createContext<CartContextType>({
   addItem: (item) => {},
   removeItem: (id) => {},
   clearCart: () => {},
+  removeItemCompletely: (id) => {}, // <--- NEW
 });
 
 export function CartContextProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
 
   // Calculate total price dynamically
- const totalAmount = items.reduce((total, item) => total + item.price * item.quantity, 0);
+  const totalAmount = items.reduce((total, item) => total + item.price * item.quantity, 0);
 
   // 2. The Logic to Add an Item
   function addItemHandler(item: CartItem) {
@@ -57,10 +59,13 @@ export function CartContextProvider({ children }: { children: React.ReactNode })
       return updatedItems;
     });
   }
-function clearCartHandler() {
+
+  // Remove ALL items from cart
+  function clearCartHandler() {
     setItems([]); 
   }
-  // 3. The Logic to Remove an Item
+
+  // 3. The Logic to Remove ONE quantity of an Item
   function removeItemHandler(id: string) {
     setItems((prevItems) => {
       const existingItemIndex = prevItems.findIndex((i) => i.id === id);
@@ -84,12 +89,22 @@ function clearCartHandler() {
     });
   }
 
+  // 4. NEW FUNCTION: Remove ALL quantities of a specific item
+  function removeItemCompletelyHandler(id: string) {
+    setItems((prevItems) => {
+      // Filter out the item with the matching id
+      const updatedItems = prevItems.filter((item) => item.id !== id);
+      return updatedItems;
+    });
+  }
+
   const contextValue: CartContextType = {
     items: items,
     totalAmount: totalAmount,
     addItem: addItemHandler,
     removeItem: removeItemHandler,
     clearCart: clearCartHandler,
+    removeItemCompletely: removeItemCompletelyHandler, // <--- NEW
   };
 
   return (

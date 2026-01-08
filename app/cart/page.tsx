@@ -16,9 +16,11 @@ export default function CartPage() {
   const cartItemAddHandler = (item: CartItem) => {
     cartCtx.addItem({ ...item, quantity: 1 });
   };
-
-  const cartItemRemoveHandler = (id: string) => {
+const cartItemRemoveHandler = (id : string) => {
     cartCtx.removeItem(id);
+  };
+  const cartRemoveAllitems = (id : string) => {
+    cartCtx.removeItemCompletely(id);
   };
 
   if (!hasItems) {
@@ -76,7 +78,7 @@ export default function CartPage() {
                     </div>
                     
                     <button 
-                      onClick={() => cartItemRemoveHandler(item.id)}
+                      onClick={() => cartRemoveAllitems(item.id)}
                       className="text-slate-400 hover:text-red-500 cursor-pointer p-2 transition-colors"
                     >
                       <Trash2 className="h-6 w-6" />

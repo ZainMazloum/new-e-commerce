@@ -33,12 +33,6 @@ const ProductCard = ({ product }: Props) => {
       image: product.image,
       quantity: 1,
     });
-
-    notificationCtx.showNotification({
-      title: "Success!",
-      message: "Added to cart",
-      status: "success",
-    });
   };
 
   // 6. Rating Logic (Same as RateProduct component)

@@ -20,7 +20,7 @@ switch(status){
       statusClasses = ''; 
       break;
 }
-const activeClasses = `fixed bottom-0 left-0 h-20 w-full bg-gray-900 flex justify-between items-center text-white px-[10%] shadow-md shadow-black/20 ${statusClasses}`
+const activeClasses = `fixed bottom-0 z-50 left-0 h-20 w-full bg-gray-900 flex justify-between items-center text-white px-[10%] shadow-md shadow-black/20 ${statusClasses}`
   return (
     <div className={activeClasses} onClick={notificationCtx.hideNotification}>
       <h2 className="m-0 text-xl text-white">{title}</h2>

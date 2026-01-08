@@ -58,7 +58,7 @@ const Header = () => {
                <input 
                  type="search" 
                  placeholder="Search products..." 
-                 className="h-10 w-72 rounded-full border-2 border-gray-200 bg-gray-50 pl-10 text-sm focus:border-blue-500 focus:outline-none"
+                 className="h-10 w-72 rounded-full border-2 border-gray-200 bg-gray-50 text-black pl-10 text-sm focus:border-blue-500 focus:outline-none"
                  // Connect the input to our logic:
                  value={query}
                  onChange={(e) => setQuery(e.target.value)}
@@ -130,7 +130,7 @@ const Header = () => {
               <span className="text-2xl font-black text-slate-900">Menu</span>
               <button 
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="p-2 hover:bg-gray-100 rounded-full text-slate-500"
+                className="p-2 cursor-pointer hover:bg-gray-100 rounded-full transition text-slate-500"
               >
                 <X className="h-6 w-6" />
               </button>
@@ -142,7 +142,7 @@ const Header = () => {
               <input 
                 type="search" 
                 placeholder="Search products..." 
-                className="h-12 w-full rounded-xl border-2 border-gray-100 bg-gray-50 pl-10 text-base focus:border-blue-500 focus:outline-none"
+                className="h-12 w-full rounded-xl text-black border-2 border-gray-100 bg-gray-50 pl-10 text-base focus:border-blue-500 focus:outline-none"
                 // Connect the input here too:
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
@@ -188,7 +188,7 @@ const Header = () => {
                    </Link>
                    <button 
                      onClick={() => signOut()}
-                     className="w-full flex justify-center items-center gap-2 rounded-xl border-2 border-red-50 text-red-500 py-3 font-bold hover:bg-red-50"
+                     className="w-full flex justify-center items-center gap-2 rounded-xl border-2 border-red-50 cursor-pointer text-red-500 py-3 font-bold hover:bg-red-50"
                    >
                      <LogOut className="h-5 w-5" /> Sign Out
                    </button>
