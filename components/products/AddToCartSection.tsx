@@ -1,8 +1,7 @@
-
 "use client";
 import { useState, useContext } from "react";
 import { ShoppingCart, Minus, Plus } from "lucide-react";
-import { CartContext } from "@/store/cart-context";
+import { useCartStore } from "@/store/cart-context-zustand";
 import { NotificationContext } from "@/store/notification-context";
 import { Product } from "@/helpers/api-util";
 
@@ -12,13 +11,13 @@ interface Props {
 }
 export default function AddToCartSection({ product }: Props) {
   const [quantity, setQuantity] = useState(1);
-  const cartCtx = useContext(CartContext);
+ const addItem = useCartStore((state) => state.addItem);
   const notificationCtx = useContext(NotificationContext);
 
   const addToCartHandler = () => {
     // Loop to add the specific quantity
     for (let i = 0; i < quantity; i++) {
-      cartCtx.addItem({
+     addItem({
         id: product.id,
         name: product.name,
         price: product.price,

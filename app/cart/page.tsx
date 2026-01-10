@@ -1,32 +1,34 @@
 "use client";
-import { useContext } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { Trash2, Plus, Minus, ArrowRight, ShoppingBag, Lock } from "lucide-react";
-import { CartContext } from "@/store/cart-context";
-import { CartItem } from "@/store/cart-context";
+
+// 1. Import only what you need from Zustand
+import { useCartStore, CartItem } from "@/store/cart-context-zustand"; 
+
 export default function CartPage() {
-  const cartCtx = useContext(CartContext);
   const { status } = useSession();
-
-  const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
-  const hasItems = cartCtx.items.length > 0;
-
-  const cartItemAddHandler = (item: CartItem) => {
-    cartCtx.addItem({ ...item, quantity: 1 });
-  };
-const cartItemRemoveHandler = (id : string) => {
-    cartCtx.removeItem(id);
-  };
-  const cartRemoveAllitems = (id : string) => {
-    cartCtx.removeItemCompletely(id);
+const items = useCartStore((state) => state.items);
+  const totalAmountVal = useCartStore((state) => state.totalAmount);
+  const addItem = useCartStore((state) => state.addItem);
+  const removeItem = useCartStore((state) => state.removeItem);
+  const removeItemCompletely = useCartStore((state) => state.removeItemCompletely);
+  const hasItems = items.length > 0;
+const totalAmount = `$${totalAmountVal.toFixed(2)}`;
+const cartItemAddHandler = (item: CartItem) => {
+    addItem({ ...item, quantity: 1 });
   };
 
+  const cartItemRemoveHandler = (id: string) => {
+    removeItem(id);
+  };
+
+  const cartRemoveAllitems = (id: string) => {
+    removeItemCompletely(id);
+  };
   if (!hasItems) {
     return (
-      // FIX: Changed min-h-[70vh] to min-h-[calc(100vh-150px)] and added w-full
-      // This ensures it fills the exact remaining space on the screen
       <div className="flex min-h-[calc(100vh-150px)] w-full flex-col items-center justify-center px-4 text-center bg-white">
         <div className="mb-6 rounded-full bg-slate-50 p-10 animate-in zoom-in duration-300">
           <ShoppingBag className="h-16 w-16 text-slate-300" />
@@ -55,7 +57,7 @@ const cartItemRemoveHandler = (id : string) => {
         {/* Left Side: Items */}
         <section className="lg:col-span-7">
           <ul className="divide-y divide-slate-100 border-t border-slate-100">
-            {cartCtx.items.map((item) => (
+            {items.map((item) => (
               <li key={item.id} className="flex py-8 transition-colors hover:bg-slate-50/50 px-2 rounded-xl">
                 <div className="relative h-28 w-28 shrink-0 overflow-hidden rounded-2xl border border-slate-100 bg-slate-50 sm:h-40 sm:w-40">
                   <Image

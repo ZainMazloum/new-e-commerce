@@ -1,15 +1,15 @@
 "use client";
-import { useEffect, useContext, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { CheckCircle, Loader2 } from "lucide-react";
-import { CartContext } from "@/store/cart-context";
+import { useCartStore } from "@/store/cart-context-zustand";
 
 export default function SuccessPage() {
   const { status } = useSession();
   const router = useRouter();
-  const cartCtx = useContext(CartContext);
+ const cartCtx = useCartStore();
   const [orderId, setOrderId] = useState<string>("");
   const isSubmittingRef = useRef(false); // Prevents double-submission
 

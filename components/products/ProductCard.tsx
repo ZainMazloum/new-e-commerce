@@ -4,10 +4,9 @@ import Link from 'next/link';
 import { Star } from 'lucide-react'; 
 import { Product } from '@/helpers/api-util';
 import { useContext, useState } from 'react'; // 1. Import useState
-import { CartContext } from '@/store/cart-context';
 import { NotificationContext } from '@/store/notification-context';
 import { useSession } from 'next-auth/react'; // 2. Import useSession
-
+import { useCartStore } from '@/store/cart-context-zustand';
 interface Props {
   product: Product;
 }
@@ -15,7 +14,7 @@ interface Props {
 const ProductCard = ({ product }: Props) => {
   const { id, name, price, originalPrice, image, rating, isOnSale } = product;
   
-  const cartCtx = useContext(CartContext);
+ const addItem = useCartStore((state) => state.addItem); // Zustand cart store
   const notificationCtx = useContext(NotificationContext);
   const { status } = useSession(); // 3. Get Auth Status
 
@@ -26,7 +25,7 @@ const ProductCard = ({ product }: Props) => {
   // 5. Add to Cart Logic
   const addToCartHandler = (e: React.MouseEvent) => {
     e.preventDefault(); // Prevent navigating if inside a Link
-    cartCtx.addItem({
+   addItem({
       id: product.id,
       name: product.name,
       price: product.price,

@@ -5,7 +5,7 @@ import "./globals.css";
 import { NotificationContextProvider } from "@/store/notification-context";
 import NotificationContainer from "@/components/ui/notification-container";
 import AuthProvider from "@/providers/SessionProvider";
-import { CartContextProvider } from "@/store/cart-context";
+import CartSync from "@/components/cartSync/CartSync";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -33,11 +33,10 @@ export default function RootLayout({
       >
 <AuthProvider>
   <NotificationContextProvider>
-    <CartContextProvider> 
        <Header />
+       <CartSync />
        {children}
            <NotificationContainer />
-    </CartContextProvider>
   </NotificationContextProvider>
 </AuthProvider>
       </body>

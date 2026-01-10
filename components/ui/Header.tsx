@@ -2,8 +2,8 @@
 import Link from "next/link";
 import { ShoppingCart, User, Search, LogOut, Menu, X } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
-import { useContext, useState } from "react";
-import { CartContext } from "@/store/cart-context";
+import { useState } from "react";
+import { useCartStore } from "@/store/cart-context-zustand";
 import { useRouter } from "next/navigation"; // 1. Import useRouter
 
 const Header = () => {
@@ -13,7 +13,8 @@ const Header = () => {
   // 2. Add State for Search
   const [query, setQuery] = useState(""); 
   const router = useRouter(); 
-  const cartCtx = useContext(CartContext);
+  // Zustand Cart Store
+  const cartCtx = useCartStore((state) => state);
 
   // 3. The Function that runs when you press Enter
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
